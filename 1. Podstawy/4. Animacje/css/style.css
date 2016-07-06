@@ -1,0 +1,62 @@
+body {
+    padding:30px;
+    background-color:#efefef;
+}
+
+/*Do zadania 1*/
+.content {
+  background: #f45c57;
+  height:100px;
+  width: 100px;
+  padding:5px;
+  margin:50px;
+}
+
+/*Do zadania 2*/
+.big-image{
+    padding:15px;
+    background-color:#fff;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+    width:400px;
+    height:200px;
+}
+
+/*Do zadania 3*/
+.select-field {
+  margin-top:30px;
+  border:1px solid #4f4f4f;
+  padding:3px 5px;
+  width:100px;
+  background-color: white;
+  position: relative;
+}
+.arrow-down {
+  position:absolute;
+  right:5px;
+  top:10px;
+  cursor: pointer;
+  width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #f00;
+}
+
+.select-body {
+  display: none;
+}
+
+
+/*Do zadania 4*/
+.runnig-element div{
+   margin: 30px;
+    position:absolute;
+    display:block;
+    padding:5px;
+    background: purple;
+    width:100px;
+    text-align: center;
+    left:0;
+    color: white;
+    cursor: pointer;
+}
