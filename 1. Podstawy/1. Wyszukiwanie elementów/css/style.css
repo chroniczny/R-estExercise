@@ -50,7 +50,7 @@
   padding: 80px;
 }
 
-.Links {
+.links {
     background-color: #2ac56c;
     padding: 80px;
 }
@@ -77,4 +77,12 @@
 	-moz-transform: scale(0.9);
 	transform: scale(0.9);
 	opacity: 0;
+}
+
+.redLinks {
+    color: red;
+}
+
+.biggerFont {
+    font-size: 1.5em;
 }
