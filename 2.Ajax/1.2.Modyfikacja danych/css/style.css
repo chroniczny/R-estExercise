@@ -22,10 +22,15 @@ body {
 }
 
 .movie .removeMovie, .movie .editMovie {
-  float :left;
+  /*float :left;*/
   width: 80px;
   margin-left: 10px;
 }
+.movie .movie .editMovie {
+    float :left;
+}
+
+
 
 .seans {
   clear: both;
