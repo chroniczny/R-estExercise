@@ -24,6 +24,7 @@ $(function() {
         $.ajax({
             	url: movieUrl
         }).done(function(response){
+            console.log(response);
      		    insertContent(response.results)
     	 }).fail(function(error) {
            console.log(error)
@@ -31,5 +32,6 @@ $(function() {
   }
 
   loadMovies();
+
 
 });
