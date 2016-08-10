@@ -52,34 +52,36 @@ $(function () {
         var addMovBtn = $('#addMovie');
         addMovBtn.on('click', function () {
 
-            var inputTitle = $('.get_title');
-            var inputDescription = $('.get_description');
+            var inputTitle = $('.get_title'); // znajdujemy input dla tytułu
+            var inputDescription = $('.get_description'); // ... opis dla filmu
 
-            var liToClone = $('.movie').last();
-            console.log(liToClone);
-            var newLiMovie = liToClone.clone();
-            var newTitle = newLiMovie.find('h3');
-            var newDescription = newLiMovie.find('.movie_description');
-            newTitle.text(inputTitle.val());
-            newDescription.text(inputDescription.val());
-            movieLists.append(newLiMovie);
+            var liToClone = $('.movie').last(); // wybieramy cały istniejący element do sklonowania (np. ostatni);
+            console.log(liToClone);  //
+            var newLiMovie = liToClone.clone();  // nowy element bedzie klonem powyższego
+            var newTitle = newLiMovie.find('h3'); // tytuł w nowym elemenvie filmu
+            var newDescription = newLiMovie.find('.movie_description'); // opis ...
+            newTitle.text(inputTitle.val()); // wrzucam z inputa tytuł do nowego elementu
+            newDescription.text(inputDescription.val()); // wrzucam też pis
+            movieLists.append(newLiMovie); // utworzony element dodaję do DOM
 
             $.ajax({
                 url: movieUrl,
                 dataType: 'json',
                 type: 'POST',
                 data: {
-                    title: inputTitle.val(),
-                    description: inputDescription.val()
+                    title: inputTitle.val(), // treść inputu wysyłam ...
+                    description: inputDescription.val() // analogicznie jw.
                     //,
                     //"screenings": [{"screening_date": "07.08.2016 godz. 18:00"}, {"screening_date": "07.08.2016 godz. 21:00"}]
                 }
             }).done(function () {
-                console.log("Movie added");
+                console.log("Movie added"); // jeśli się udało chcę wiedzieć
+                alert("Movie added"); // denerwujące, ale komunikatywne
             }).fail(function () {
                 console.log("sorry, I can't POST THAT");
+                alert("sorry, I can't POST THAT"); // denerwujące, ale komunikatywne
             });
-            inputTitle.val();
+            inputTitle.val(''); // czyścimy inputy po dodaniu filmu
             inputDescription.val('');
         });
     }
@@ -88,48 +90,49 @@ $(function () {
 
 
     function editMovies() {
-        movieLists.on('click', '.editMovie', function (event) {
-            var btnEdit = $(event.currentTarget);
+        movieLists.on('click', '.editMovie', function (event) { // event na liście eby brał zawsze aktualne elementy wewnąrz
+                                                                // ale klikanie na guzik "editMovie"
+            var btnEdit = $(event.currentTarget); // uzywam currentTarget zeby wskazać dokłądnie, ze to guzik został kliknięty
             console.log('edit kliknięty');
 
-            var editTile = $(event.currentTarget).prev().prev().prev().text();
-            var editDscrptn = btnEdit.prev().prev().text();
+            var editTile = $(event.currentTarget).prev().prev().prev().text(); //dostaję się po drzewie do tytułu. działam na elemencie jquery: $(...)!!!
+            var editDscrptn = btnEdit.prev().prev().text(); // skaczę o drzewie zeby wyciągnąć opis filmu
 
             var Li = btnEdit.parent(); // wiersz listy-dane filmu to rodzic guzika
             var isEditable = Li.is('.editable');
             Li.prop('contenteditable', !isEditable).toggleClass('editable'); // sprawdza własnosć elementu - przełącza je
             console.log(Li.attr('class'));
-            if (Li.attr('class') == 'movie editable') { // uzależniam od klasy Li napis na guziku
-                btnEdit.text('Zatwierdź');
+            if (Li.hasClass('editable')) { // uzależniam od posiadania klasy Li napis na guziku
+                btnEdit.text('Zatwierdź'); // element będący w trybie edycji (klasa editable) - guzik będziem iał napis Zatwierdź
             } else {
-                btnEdit.text('Zmodyfikuj');
+                btnEdit.text('Zmodyfikuj'); // gdy pole przestaje być edytowalne (bez klasy editable) tzn. że Zatwierdzamy zmiany
+
+                $.ajax({ // ajax daję dopiero po wyjścu z edycji elementu, żeby na wejściu nie robił tego niepotrzebnie
+                    // jak zmieniamy (lub nie) edyowalny element, to Zatwierdzamy i dopiero wówczas zachodzi update ajaxem PUT...
+                    url: 'http://api.coderslab.pl/movies/{id}',
+                    type: 'PUT',
+                    dataType: 'json',
+                    data: {
+                        "title": editTile, // tytuł jest id obiektu wyrzucanego?
+                        "description": editDscrptn
+                        //,
+                        //"screenings":[{"screening_date":"Foo sccrening 1"},{"screening_date":"Foo sccrening 2"},{"screening_date":"Foo sccrening 3"},{"screening_date":"Foo sccrening 4"}]
+                    }
+                }).done(function () {
+                    console.log('The movie-base is updated');
+                    alert('The movie-base is updated'); // komunikuję się z użytkownikiem
+                }).fail(function () {
+                    console.log("sorry, I can't UPDATE IT");
+                    alert("sorry, I can't UPDATE IT"); // komunikuję się z użytkownikiem
+                });
             }
 
-            $.ajax({
-                url: 'http://api.coderslab.pl/movies/{id}',
-                type: 'PUT',
-                dataType: 'json',
-                data: {
-                    "title": editTile, // tytuł jest id obiektu wyrzucanego?
-                    "description": editDscrptn
-                    //,
-                    //"screenings":[{"screening_date":"Foo sccrening 1"},{"screening_date":"Foo sccrening 2"},{"screening_date":"Foo sccrening 3"},{"screening_date":"Foo sccrening 4"}]
-                }
-            }).done(function () {
-                console.log('The movie-base is updated')
-                //movieLists.empty();
-                //loadMovies(); //czy już to usunąłem ze źródła i
-            }).fail(function () {
-                console.log("sorry, I can't UPDATE IT");
-            });
         })
     }
 
     editMovies();
 
     function removeMovie() {
-        console.log('remove is On...');
-        //var buttonDel = movieLists.find('button');
 
         movieLists.on('click', '.removeMovie', function (event) { // event wywoływany na ul ale po kliknięciu na guzik!
 
@@ -155,10 +158,11 @@ $(function () {
                 }
             }).done(function () {
                 console.log('Movie ' + delTitle + ' is deleted');
-                //movieLists.empty();
-                //loadMovies(); //czy już to usunąłem ze źródła i
+                alert('Movie ' + delTitle + ' is deleted');
+
             }).fail(function () {
                 console.log("sorry, I can't REMOVE IT");
+                alert("sorry, I can't REMOVE IT");
             });
         })
 
