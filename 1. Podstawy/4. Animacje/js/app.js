@@ -68,15 +68,17 @@ $(document).ready(function () {
 
         image2.css("display", "none"); // początkowo mamy mieć img2 niewidoczny
 
-        imgTheOnes.on('click', function(event) {
+        imgTheOnes.on('click', function(event) { // na kliknięcie
             var $this = $(this);
 
-            $this.fadeOut('slow', function(){
-                console.log($this.attr('class') + " is clicked and is fading out");// sprawdzam jaki to element nie mając dostępu do Internetu ;)
-                $this.siblings().fadeIn('slow', function() { // zagniździłem funkcję żeby się wykonywały po sobie
-                    console.log($this.siblings().attr('class') + " is fading in");
+            $this.fadeOut('slow', function(){ //dane zdjecie .. powoli znika
+                //console.log($this.attr('class') + " is clicked and is fading out");// sprawdzam jaki to element nie mając dostępu do Internetu ;)
+                $this.siblings().fadeIn('slow', function() { // (zagniździłem funkcję żeby się wykonywały po sobie) rodzeństwo pokazuje się
+                    //console.log($this.siblings().attr('class') + " is fading in");
                 });
             });
+            //$this.fadeOut('slow').siblings().fadeIn('slow'); // ten sposób sprawia, że elementy naraz wykonują pojawianie/znikanie
+            // przez mment będąc widoczne razem jeden element wypycha drugi z miejsca przeznaczenia... - brzydki efekt
         })
     }
     ex2prim();
@@ -121,7 +123,7 @@ function ex3() {
             var divChild = $this.children().first(); //pierwsze dziecko elementu wskazanego
             positionNew += 20; // każde kliknięcie zmienia pozycję o dodatkowe 20px
 
-            divChild.animate({left: positionNew}, 2000, function () { //animacja zmienia pozycję, trwa 2s,...
+            divChild.animate({left: positionNew}, 2000, function () { //animacja zmienia pozycję na nową, trwa 2s,...
                 console.log('przesuwanie zakończone'); // po zakończeniu raportuje do konsoli wykonanie pojedynczego eventu
             })
         })
