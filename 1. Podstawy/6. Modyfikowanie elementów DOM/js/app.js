@@ -17,18 +17,18 @@ $(document).ready(function () {
         //console.log(addBtn.val()); // just checkin
         var userWhat = peoplelSec.find('#addUser');
         var userAge = peoplelSec.find('#age');
-        var userList = peoplelSec.find('.main');
+        var userList = peoplelSec.find('.main'); // lista ul
 
         addBtn.on('click', function (event) {
             console.log('dodaj is clicked');
             var $this = $(this);
 
-            var newUserLiEl = $("<li>", {'data-age': userAge.val()}); // atrybuty nowego to zapis w formie obiektu
-            newUserLiEl.text(userWhat.val());
-            userList.append(newUserLiEl).children().each(function () {// dodaję element i wykonujękoleją funkcję
+            var newUserLiEl = $("<li>", {'data-age': userAge.val()}); // atrybuty nowego Li to zapis w formie obiektu - też pobrane z inputa
+            newUserLiEl.text(userWhat.val()); // wrucamy mu text pobrany z inputa 'user...
+            userList.append(newUserLiEl).children().each(function () {// dodaję element i wykonuję na nim (-nich) koleją funkcję
                 // 'each' bo zakładam, że kolor będzie zmieniany nie tylko nowym elementom lecz wszystkim na liście
                 var $this = $(this);
-                if ($this.data('age') < 15) {
+                if ($this.data('age') < 15) { // w zależności od wieku przypisuję kolor w css
                     $this.css({color: "green"});
                 } else if ((15 <= $this.data('age')) && (($this.data('age') < 41))) {
                     $this.css({color: "blue"});
