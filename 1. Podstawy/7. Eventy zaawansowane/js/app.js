@@ -34,23 +34,22 @@ $(document).ready(function () {
 
 function extra7() {
     var peopleEl = $('.people');
-// problem: jak zrobić aby po załądowaniu nowe elementy miały guzik 'Usuń'???
 
-    //inne podejscie:
     var main = peopleEl.find('.main');
 
     main.on('click', 'li', function (event) { // aby dodać guzik 'Usuń' muszę kliknąć na element listy
-        var newBtn = $('<button>Usuń</button>');
+        var newBtn = $('<button>Usuń</button>'); // tworzę guik
         var $this = $(this);
         if ($this.children().length == 0) { // żeby mi się guziki przy każdym kliku nie dodawały ;))
-        newBtn.appendTo($this);
+                                            // dodają się, jeśli Li nie ma dzieci (czyli guzików)
+        newBtn.appendTo($this); // guzik dodaj do Li
         }
-    })
+    });
 
     main.on('click', 'button', function(event) {// do przypisania eventu używam "trzeci parametr": 'button'
                                                                 // klikniecie na 'Usuń' usuwa rodzica guzika z listy
         var $this = $(this);
-        $this.parent().remove();
+        $this.parent().remove(); // rodzic guzika jest usuwany
     })
 }
     extra7();
