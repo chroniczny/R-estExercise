@@ -4,13 +4,14 @@ $(function () {
     var movieLists = $('.repertuar');
     //variables for url
     var movieUrl = 'http://api.coderslab.pl/movies';
+    //var movieUrl = 'http://127.0.0.1:8080';
 
     $('form').on('click', function (event) { // blokuję przeładowanie trony
         event.preventDefault();
     });
 
     /* Insert Movies to DOM  */
-    function insertContent(movies, descriptions) {
+    function insertContent(movies, descriptions, movId) {
 
         var li = $('<li>', {class: "movie"});
         var desc = $('<div>', {class: "movie_description"});
@@ -18,6 +19,7 @@ $(function () {
         var deleteBtn = $('<button class="removeMovie" value="Usuń film">Usuń film</button>');
         var updateBtn = $('<button class="editMovie" value="Zmodyfikuj">Zmodyfikuj</button>');
 
+        li.attr('data-id', movId);
         titleH.html(movies);
         desc.html(descriptions);
 
@@ -39,7 +41,8 @@ $(function () {
                 //console.log(tytlE); // wypisuje w kons. tytuł
                 var desctiptioN = el.description;
                 //console.log(desctiptioN); // wypisuje w kons. opis
-                insertContent(tytlE, desctiptioN);
+                var idMovie = el.id; // pobieram id filmu - żeby go zapisać jako atrybut data-id>> do wskazywania np. w usuwaniu
+                insertContent(tytlE, desctiptioN, idMovie);
             })
         }).fail(function (error) {
             console.log(error)
@@ -68,12 +71,13 @@ $(function () {
                 url: movieUrl,
                 dataType: 'json',
                 type: 'POST',
-                data: {
-                    title: inputTitle.val(), // treść inputu wysyłam ...
-                    description: inputDescription.val() // analogicznie jw.
-                    //,
-                    //"screenings": [{"screening_date": "07.08.2016 godz. 18:00"}, {"screening_date": "07.08.2016 godz. 21:00"}]
-                }
+                data: JSON.stringify(
+                    {
+                        title: inputTitle.val(), // treść inputu wysyłam ...
+                        description: inputDescription.val() // analogicznie jw.
+                        //,
+                        //"screenings": [{"screening_date": "07.08.2016 godz. 18:00"}, {"screening_date": "07.08.2016 godz. 21:00"}]
+                    })
             }).done(function () {
                 console.log("Movie added"); // jeśli się udało chcę wiedzieć
                 alert("Movie added"); // denerwujące, ale komunikatywne
@@ -90,8 +94,10 @@ $(function () {
 
 
     function editMovies() {
+
         movieLists.on('click', '.editMovie', function (event) { // event na liście eby brał zawsze aktualne elementy wewnąrz
-                                                                // ale klikanie na guzik "editMovie"
+            // ale klikanie na guzik "editMovie"
+            //var $this = $(this);
             var btnEdit = $(event.currentTarget); // uzywam currentTarget zeby wskazać dokłądnie, ze to guzik został kliknięty
             console.log('edit kliknięty');
 
@@ -99,6 +105,7 @@ $(function () {
             var editDscrptn = btnEdit.prev().prev().text(); // skaczę o drzewie zeby wyciągnąć opis filmu
 
             var Li = btnEdit.parent(); // wiersz listy-dane filmu to rodzic guzika
+            var idData = Li.attr('data-id'); // wartosć atrybutu data-id ważne dla wskazzania który film edytujemy...
             var isEditable = Li.is('.editable');
             Li.prop('contenteditable', !isEditable).toggleClass('editable'); // sprawdza własnosć elementu - przełącza je
             console.log(Li.attr('class'));
@@ -109,15 +116,15 @@ $(function () {
 
                 $.ajax({ // ajax daję dopiero po wyjścu z edycji elementu, żeby na wejściu nie robił tego niepotrzebnie
                     // jak zmieniamy (lub nie) edyowalny element, to Zatwierdzamy i dopiero wówczas zachodzi update ajaxem PUT...
-                    url: 'http://api.coderslab.pl/movies/{id}',
-                    type: 'PUT',
+                    url: 'http://api.coderslab.pl/movies/'+idData, // /{id} musze dodać aby wskazać w bazie o ktory film chodzi
                     dataType: 'json',
-                    data: {
+                    type: 'PUT',
+                    data: JSON.stringify({
                         "title": editTile, // tytuł jest id obiektu wyrzucanego?
                         "description": editDscrptn
                         //,
                         //"screenings":[{"screening_date":"Foo sccrening 1"},{"screening_date":"Foo sccrening 2"},{"screening_date":"Foo sccrening 3"},{"screening_date":"Foo sccrening 4"}]
-                    }
+                    })
                 }).done(function () {
                     console.log('The movie-base is updated');
                     alert('The movie-base is updated'); // komunikuję się z użytkownikiem
@@ -144,18 +151,19 @@ $(function () {
             console.log(delDescription);
 
             var parOfBtn = $(event.currentTarget).parent(); // znajduję jego rodzica
+            var idData = parOfBtn.attr('data-id'); // tu moje Li to parOBtn
             parOfBtn.remove();
 
             $.ajax({
-                url: 'http://api.coderslab.pl/movies/{id}',
-                type: 'DELETE',
+                url: 'http://api.coderslab.pl/movies/'+idData,
                 dataType: 'json',
-                data: {
+                type: 'DELETE',
+                data: JSON.stringify( {
                     "title": delTitle, // tytuł jest id obiektu wyrzucanego?
                     "description": delDescription
                     //,
                     //"screenings":[{"screening_date":"Foo sccrening 1"},{"screening_date":"Foo sccrening 2"},{"screening_date":"Foo sccrening 3"},{"screening_date":"Foo sccrening 4"}]
-                }
+                })
             }).done(function () {
                 console.log('Movie ' + delTitle + ' is deleted');
                 alert('Movie ' + delTitle + ' is deleted');
