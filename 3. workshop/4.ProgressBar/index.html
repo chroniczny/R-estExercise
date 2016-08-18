@@ -4,31 +4,32 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/jquery-2.1.4.js" type="text/javascript"></script>
+    <!--<script src="js/jquery-2.1.4.js" type="text/javascript"></script>-->
+    <script src="jquery/jquery-3.1.0.min.js"></script>
     <script src="js/app.js" type="text/javascript"></script>
 </head>
 </head>
 <body>
 
-  <button class="changeBar bar1" >Change progress bar number 1 to 50% blue</button><br>
-  <button class="changeBar bar1" >Change progress bar number 1 to 20% green</button><br>
-  <button class="changeBar bar1" >Change progress bar number 1 to 90% orange</button><br>
+  <button class="changeBar bar1" data-width="50%" data-number="1" data-color="blue">Change progress bar number 1 to 50% blue</button><br>
+  <button class="changeBar bar1" data-width="20%" data-number="1" data-color="green">Change progress bar number 1 to 20% green</button><br>
+  <button class="changeBar bar1" data-width="90%" data-number="1" data-color="orange">Change progress bar number 1 to 90% orange</button><br>
 
-  <div id="bar1" class="progress-bar">
+  <div id="bar1" class="progress-bar" >
       <span></span>
   </div>
 
-  <button class="changeBar bar2" >Change progress bar number 2 to 50% blue</button><br>
-  <button class="changeBar bar2" >Change progress bar number 2 to 20% green</button><br>
-  <button class="changeBar bar2" >Change progress bar number 2 to 90% orange</button><br>
+  <button class="changeBar bar2" data-width="50%" data-number="2" data-color="blue">Change progress bar number 2 to 50% blue</button><br>
+  <button class="changeBar bar2" data-width="20%" data-number="2" data-color="green">Change progress bar number 2 to 20% green</button><br>
+  <button class="changeBar bar2" data-width="90%" data-number="2" data-color="orange">Change progress bar number 2 to 90% orange</button><br>
 
   <div id="bar2" class="progress-bar">
       <span></span>
   </div>
 
-  <button class="changeBar bar3" >Change progress bar number 3 to 50% blue</button><br>
-  <button class="changeBar bar3" >Change progress bar number 3 to 20% green</button><br>
-  <button class="changeBar bar3" >Change progress bar number 3 to 90% orange</button><br>
+  <button class="changeBar bar3" data-width="50%" data-number="3" data-color="blue">Change progress bar number 3 to 50% blue</button><br>
+  <button class="changeBar bar3" data-width="20%" data-number="3" data-color="green">Change progress bar number 3 to 20% green</button><br>
+  <button class="changeBar bar3" data-width="90%" data-number="3" data-color="orange">Change progress bar number 3 to 90% orange</button><br>
 
 
   <div id="bar3" class="progress-bar">
