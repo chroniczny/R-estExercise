@@ -1,0 +1,14 @@
+bit.ly/2aE87Pc
+
+1. Formularz rejestracji na stronie
+2. U¿ytkownik podaje imiê i e-mail
+3. Kiedy przesy³a formularz (zdarzenie "submit" na formularzu) to robimy zapytanie AJAX
+4. 
+API: http://showcase.itdotfocus.com/rest_simple.php
+type:'POST',
+dataType:'json',
+data: //tu siê wysy³a dane
+5. API zwraca dwie mo¿liwe odpowiedzi:
+ A) ans.result == false, wtedy pokazuje ans.error - pokazujemy wtedy komunikat u¿ytkownikowi
+ B) ans.result == true, wtedy pokazuje ans.login i wyœwietla go u¿ytkownikowi
+6. Na czas wysy³ania AJAX znika formularz, a w komunikacie pokazane jest "Wczytywanie..."
