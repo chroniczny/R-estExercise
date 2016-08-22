@@ -14,19 +14,19 @@ $(document).ready(function () {
         var oldMousePositionY = 0;
 
 // 3.
-        elem.each(function (el) {
-            console.log($(this).attr('data-y'));
-            var x = $(this).attr('data-x');
-            console.log(x);
-            var y = $(this).attr('data-y');
-            console.log(y);
+        elem.each(function (idx, el) {
+            //console.log($(el).attr('data-y'));
+            var x = $(el).attr('data-x');
+            console.log(x, idx);
+            var y = $(el).attr('data-y');
+            console.log(y, idx);
 
-            var z = $(this).attr('data-z');
-            console.log(z);
+            var z = $(el).attr('data-z');
+            console.log(z, idx);
 
-            $(this).css('left', x + "px");
-            $(this).css('top', y + "px");
-            $(this).css('z-index', z);
+            $(el).css('left', x + "px");
+            $(el).css('top', y + "px");
+            $(el).css('z-index', z);
         });
 
 // 4.
@@ -43,26 +43,27 @@ $(document).ready(function () {
 
                 currentMousePositionX = currentMousePositionX + changePosX;
                 currentMousePositionY = currentMousePositionY + changePosY;
+            })
 // 7.
                 var mouseMoveX = currentMousePositionX - oldMousePositionX;
                 var mouseMoveY = currentMousePositionY - oldMousePositionY;
                 console.log('różnicaX :' + mouseMoveX, 'różnicaY :' + mouseMoveY);
 
                 // 8.
-                elem.each(function (el) {
-                    var speed = $(this).attr('data-speed');
+                elem.each(function (idx,el) {
+                    var speed = $(el).attr('data-speed');
                     console.log(speed);
-                    var movLeftPos = $(this).offset().left + mouseMoveX * speed;
-                    var movTopPos = $(this).offset().top + mouseMoveY * speed;
-                    $(this).css('left', movLeftPos);
-                    $(this).css('top', movTopPos);
+                    var movLeftPos = $(el).offset().left + mouseMoveX * speed;
+                    var movTopPos = $(el).offset().top + mouseMoveY * speed;
+                    $(el).animate({'left': movLeftPos}); // zmieniłem na animację, zeby zaobserwować co się dzieje
+                    $(el).animate({'top': movTopPos});
 
 
    // 9. gdzie???????????????????????
                     oldMousePositionX = currentMousePositionX;
                     oldMousePositionY = currentMousePositionY;
-                })
-            });
+                });
+            //});
         });
 
 // 4. cd.
