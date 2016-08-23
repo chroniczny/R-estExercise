@@ -25,36 +25,46 @@ $(document).ready(function () {
         //console.log(sliderWidth);
         ulContener.outerWidth(sliderWidth); // biorę szerzej, zeby nie dodawać pikseli do 6xszerokosc obrazka
 
+
+        function buttonSlide(button) { // utworzona funkcja będzie uzależniała swoje działanie od guzika (rozpoznanego po atrybucie)
+            if (button == 'nextPicture') {
+                if (indxOfVisibleImg < liEl.length - 1) {
+                    var positionNew = imgWidth * (1 + indxOfVisibleImg);
+                    ulContener.animate({left: -positionNew});
+                    indxOfVisibleImg = indxOfVisibleImg + 1; // zmienia się index obrazka widzialnego teraz
+                } else {
+                    indxOfVisibleImg = 0;
+                    ulContener.animate({left: 0});
+                }
+
+            } else if (button == 'prevPicture') {
+
+                if (indxOfVisibleImg == 0) {
+                    indxOfVisibleImg = liEl.length;
+                    positionNew = imgWidth * (1 - indxOfVisibleImg);
+                    ulContener.animate({left: positionNew});
+                    indxOfVisibleImg = indxOfVisibleImg - 1; //zmienia się index obrazka widzialnego teraz
+                } else {
+                    var positionNew = imgWidth * (1 - indxOfVisibleImg);
+                    ulContener.animate({left: positionNew});
+                    indxOfVisibleImg = indxOfVisibleImg - 1; // nowy index dla img
+                }
+            }
+        }
+
+
         btnNext.on('click', function (event) {
             console.log('next_clicked');
-
-            if(indxOfVisibleImg<liEl.length-1){
-                var positionNew = imgWidth*(1+indxOfVisibleImg);
-                ulContener.animate({left: -positionNew});
-                indxOfVisibleImg = indxOfVisibleImg+1; // zmienia się index obrazka widzialnego teraz
-
-            } else {
-                indxOfVisibleImg = 0;
-                ulContener.animate({left: 0});
-            }
+            var whichButton = $(this).attr('id');
+            console.log('clicked: ' + whichButton);
+            buttonSlide(whichButton); // do funkcji przekazuję informację jaki guzik został wciśnięty
         });
         btnPrev.on('click', function (event) {
             console.log('prev_clicked');
-            if(indxOfVisibleImg==0){
-                indxOfVisibleImg = liEl.length;
-                positionNew = imgWidth*(1-indxOfVisibleImg);
-                ulContener.animate({left: positionNew});
-                indxOfVisibleImg = indxOfVisibleImg-1; //zmienia się index obrazka widzialnego teraz
-
-
-            } else {
-                var positionNew = imgWidth*(1-indxOfVisibleImg);
-                ulContener.animate({left: positionNew});
-                indxOfVisibleImg = indxOfVisibleImg-1; // nowy index dla img
-
-            }
-
-        })
+            var whichButton = $(this).attr('id');
+            console.log('clicked: ' + whichButton);
+            buttonSlide(whichButton); // do funkcji przekazuję informację jaki guzik został wciśnięty
+        });
 
 
     }
