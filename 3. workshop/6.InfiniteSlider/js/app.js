@@ -28,31 +28,43 @@ $(document).ready(function () {
         ulContener.outerWidth(sliderWidth); // biorę szerzej, zeby nie dodawać pikseli do 6xszerokosc obrazka
 
 // w css startujemy z pozycji ul left = -400px aby być na pierwotnie pierwszym obrazku (ale w DOM jest to element [1])
+        // 7. funkcja poiadająca opis działania eventów:
+
+        function slideDoing(button) {
+            if (button == 'prevPicture') {
+                var newPos = imgWidth * (1 - indxOfVisibleImg);
+                ulContener.animate({left: newPos}, function () {
+                    if (indxOfVisibleImg > 1) {
+                        indxOfVisibleImg = indxOfVisibleImg - 1; //zmienia się index obrazka widzialnego teraz
+                    } else {
+                        newPos = imgWidth * (liEl.length);
+                        ulContener.css({left: -newPos});
+                        indxOfVisibleImg = liEl.length;
+                    }
+                });
+
+            } else if (button == 'nextPicture') {
+                var newPos = -imgWidth * (1 + indxOfVisibleImg);
+                ulContener.animate({left: newPos}, function () {
+                    if (indxOfVisibleImg < liEl.length - 1) {
+                        indxOfVisibleImg = indxOfVisibleImg + 1; // zmienia się index obrazka widzialnego teraz
+                    } else {
+                        ulContener.css({left: 0}); // bez animacji natychmiast niepostrzeżenie przestaw pozycję
+                        indxOfVisibleImg = 0;
+                    }
+                });
+            }
+        }
+
         btnNext.on('click', function (event) {
             //console.log('next_clicked');
-            var newPos = -imgWidth * (1 + indxOfVisibleImg);
-            ulContener.animate({left: newPos}, function () {
-                if (indxOfVisibleImg < liEl.length - 1) {
-                    indxOfVisibleImg = indxOfVisibleImg + 1; // zmienia się index obrazka widzialnego teraz
-                } else {
-                    ulContener.css({left: 0}); // bez animacji natychmiast niepostrzeżenie przestaw pozycję
-                    indxOfVisibleImg = 0;
-                }
-            });
+            var whichBtn = $(this).attr('id');
+            slideDoing(whichBtn);
         });
 
         btnPrev.on('click', function (event) {
-            var newPos = imgWidth * (1 - indxOfVisibleImg);
-            ulContener.animate({left: newPos}, function () {
-                if (indxOfVisibleImg > 1) {
-                    indxOfVisibleImg = indxOfVisibleImg - 1; //zmienia się index obrazka widzialnego teraz
-
-                } else {
-                    newPos = imgWidth*(liEl.length);
-                    ulContener.css({left: -newPos});
-                    indxOfVisibleImg = liEl.length;
-                }
-            });
+            var whichBtn = $(this).attr('id');
+            slideDoing(whichBtn);
         })
     }
 
