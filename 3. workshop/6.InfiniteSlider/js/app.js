@@ -56,16 +56,12 @@ $(document).ready(function () {
             }
         }
 
-        btnNext.on('click', function (event) {
+        $('button').on('click', function (event) { // obojętnie na który z guzików ...
             //console.log('next_clicked');
             var whichBtn = $(this).attr('id');
             slideDoing(whichBtn);
         });
 
-        btnPrev.on('click', function (event) {
-            var whichBtn = $(this).attr('id');
-            slideDoing(whichBtn);
-        })
     }
 
     sliderA();
