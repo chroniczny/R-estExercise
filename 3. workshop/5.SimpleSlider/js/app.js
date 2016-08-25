@@ -53,23 +53,11 @@ $(document).ready(function () {
         }
 
 
-        btnNext.on('click', function (event) {
-            console.log('next_clicked');
+        $('button').on('click', function (event) {
             var whichButton = $(this).attr('id');
             console.log('clicked: ' + whichButton);
             buttonSlide(whichButton); // do funkcji przekazuję informację jaki guzik został wciśnięty
         });
-        btnPrev.on('click', function (event) {
-            console.log('prev_clicked');
-            var whichButton = $(this).attr('id');
-            console.log('clicked: ' + whichButton);
-            buttonSlide(whichButton); // do funkcji przekazuję informację jaki guzik został wciśnięty
-        });
-
-
     }
-
     sliderA();
-
-
 });
